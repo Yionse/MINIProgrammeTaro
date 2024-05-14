@@ -6,6 +6,8 @@ import Store from "./components/store";
 import Message from "./components/message";
 import Shopping from "./components/shopping";
 import User from "./components/users";
+import { Provider } from "react-redux";
+import store from "@/store";
 
 const statusMap = {
   0: <MeIndex />,
@@ -18,7 +20,7 @@ const statusMap = {
 export default function Index() {
   const [current, setCurrent] = useState(0);
   return (
-    <>
+    <Provider store={store}>
       {statusMap[current]}
       <AtTabBar
         fixed
@@ -32,6 +34,6 @@ export default function Index() {
         current={current}
         onClick={setCurrent}
       />
-    </>
+    </Provider>
   );
 }

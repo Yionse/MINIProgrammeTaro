@@ -1,5 +1,5 @@
 import StatusBar from "@/components/StatusBar";
-import { Button, Image, ScrollView, Text, View } from "@tarojs/components";
+import { Image, ScrollView, Text, View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
 import { useEffect } from "react";
 
