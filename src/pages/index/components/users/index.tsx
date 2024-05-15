@@ -6,7 +6,7 @@ import unlogin from "@/assets/unlogin.png";
 import { UserInfoContext } from "@/contexts/user";
 
 export default function User() {
-  const { userInfo } = useContext(UserInfoContext);
+  const { userInfo, setUserInfo } = useContext(UserInfoContext);
   useEffect(() => {
     Taro.setBackgroundColor({ backgroundColorTop: "#8b9ae8" });
   }, []);
@@ -40,9 +40,16 @@ export default function User() {
             border: "1px solid #eee",
           }}
         />
-        {userInfo ? (
+        {userInfo?.user_id ? (
           <>
-            <Text style={{ position: "absolute", top: "10px", right: "10px" }}>
+            <Text
+              style={{ position: "absolute", top: "10px", right: "10px" }}
+              onClick={() =>
+                Taro.navigateTo({
+                  url: `/pages/updateInfo/index?id=${userInfo?.user_id}`,
+                })
+              }
+            >
               编辑资料&gt;
             </Text>
             <View style={{ fontWeight: "bold", fontSize: "22px" }}>
@@ -53,12 +60,22 @@ export default function User() {
         ) : (
           <View>暂未登录</View>
         )}
-        {!userInfo && (
+        {!userInfo?.user_id ? (
           <Button
             style={{ margin: "10px 0", border: "1px solid #7ca3ec" }}
             onClick={() => Taro.navigateTo({ url: "/pages/login/index" })}
           >
             去登录
+          </Button>
+        ) : (
+          <Button
+            style={{ margin: "10px 0", border: "1px solid #7ca3ec" }}
+            onClick={() => {
+              setUserInfo({});
+              Taro.showToast({ title: "已退出登录" });
+            }}
+          >
+            退出登录
           </Button>
         )}
       </View>

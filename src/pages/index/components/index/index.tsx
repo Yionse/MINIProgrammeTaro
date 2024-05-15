@@ -26,7 +26,7 @@ export default function MeIndex() {
     initList();
   }, []);
   return (
-    <ScrollView scrollY>
+    <ScrollView scrollY style={{ paddingBottom: "100px" }}>
       <StatusBar background="#7ca3ec" />
       <View
         style={{
@@ -39,7 +39,7 @@ export default function MeIndex() {
         首页
       </View>
       <AtSearchBar value={search} onChange={(e) => setSearch(e.toString())} />
-      {!userInfo && <GoLoginBar />}
+      {!userInfo?.user_id && <GoLoginBar />}
       <Swiper
         className="test-h"
         indicatorColor="#999"

@@ -21,8 +21,9 @@ export default function Login() {
         password,
       })) as any;
       if (res?.data) {
-        Taro.showToast({ title: "登录成功" });
         setUserInfo(res.data);
+        Taro.navigateBack();
+        Taro.showToast({ title: "登录成功" });
       } else {
         Taro.showToast({ title: "登录失败" });
       }
