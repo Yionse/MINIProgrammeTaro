@@ -1,12 +1,12 @@
 import StatusBar from "@/components/StatusBar";
-import { useLogin } from "@/hooks";
 import { Button, Image, ScrollView, Text, View } from "@tarojs/components";
 import Taro from "@tarojs/taro";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import unlogin from "@/assets/unlogin.png";
+import { UserInfoContext } from "@/contexts/user";
 
 export default function User() {
-  const isLogin = useLogin();
+  const { userInfo } = useContext(UserInfoContext);
   useEffect(() => {
     Taro.setBackgroundColor({ backgroundColorTop: "#8b9ae8" });
   }, []);
@@ -31,11 +31,7 @@ export default function User() {
         }}
       >
         <Image
-          src={
-            isLogin
-              ? "https://gd-hbimg.huaban.com/7968f776596196a8061e9ee0ee51c0606d785fc42400b-9aWWPH_fw236"
-              : unlogin
-          }
+          src={userInfo?.user_avatar ? userInfo?.user_avatar : unlogin}
           style={{
             width: "80px",
             height: "80px",
@@ -44,18 +40,20 @@ export default function User() {
             border: "1px solid #eee",
           }}
         />
-        {isLogin ? (
+        {userInfo ? (
           <>
             <Text style={{ position: "absolute", top: "10px", right: "10px" }}>
               编辑资料&gt;
             </Text>
-            <View style={{ fontWeight: "bold", fontSize: "22px" }}>用户名</View>
-            <View style={{ color: "gray" }}>个性签名</View>
+            <View style={{ fontWeight: "bold", fontSize: "22px" }}>
+              {userInfo?.user_nickname}
+            </View>
+            <View style={{ color: "gray" }}>{userInfo?.user_intro}</View>
           </>
         ) : (
           <View>暂未登录</View>
         )}
-        {!isLogin && (
+        {!userInfo && (
           <Button
             style={{ margin: "10px 0", border: "1px solid #7ca3ec" }}
             onClick={() => Taro.navigateTo({ url: "/pages/login/index" })}

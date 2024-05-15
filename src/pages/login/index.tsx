@@ -1,12 +1,44 @@
 import { Button, View } from "@tarojs/components";
 import "./index.less";
 import { AtInput } from "taro-ui";
-import { useRef, useState } from "react";
+import { useContext, useState } from "react";
 import Taro from "@tarojs/taro";
-
+import { get } from "@/apis";
+import { UserInfoContext } from "@/contexts/user";
 export default function Login() {
-  const infoState = useRef({ userName: "", password: "" });
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
   const [isLogin, setIsLogin] = useState(true);
+  const { setUserInfo } = useContext(UserInfoContext);
+  const btnHandle = async () => {
+    if (!userName || !password) {
+      Taro.showToast({ title: "输入不完整" });
+      return;
+    }
+    if (isLogin) {
+      const res = (await get("/login/login", {
+        user_name: userName,
+        password,
+      })) as any;
+      if (res?.data) {
+        Taro.showToast({ title: "登录成功" });
+        setUserInfo(res.data);
+      } else {
+        Taro.showToast({ title: "登录失败" });
+      }
+    } else {
+      const res = (await get("/login/register", {
+        user_name: userName,
+        password,
+      })) as any;
+      if (res?.message.include("注册成功")) {
+        Taro.showToast({ title: "注册成功" });
+        setIsLogin(true);
+      } else {
+        Taro.showToast({ title: "注册失败" });
+      }
+    }
+  };
   return (
     <View
       style={{
@@ -20,10 +52,11 @@ export default function Login() {
       <View className="item-input">
         <AtInput
           title="账号："
-          name="password"
+          name="text"
           className="input-controller"
           placeholder="请输入您的账号"
-          onChange={(e) => (infoState.current.userName = e.toString())}
+          value={userName}
+          onChange={(e) => setUserName(e.toString())}
         />
       </View>
       <View className="item-input">
@@ -33,7 +66,8 @@ export default function Login() {
           className="input-controller"
           placeholder="输入您的密码"
           type="password"
-          onChange={(e) => (infoState.current.password = e.toString())}
+          value={password}
+          onChange={(e) => setPassword(e.toString())}
         />
       </View>
       <View
@@ -43,6 +77,8 @@ export default function Login() {
           color: "#7ca3ec",
         }}
         onClick={() => {
+          setUserName("");
+          setPassword("");
           if (isLogin) {
             Taro.setNavigationBarTitle({ title: "注册" });
             setIsLogin(false);
@@ -62,6 +98,7 @@ export default function Login() {
           background: "#7ca3ec",
           color: "white",
         }}
+        onClick={btnHandle}
       >
         {isLogin ? "登录" : "注册"}
       </Button>

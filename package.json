@@ -37,11 +37,11 @@
   "author": "",
   "dependencies": {
     "@babel/runtime": "^7.21.5",
-    "@reduxjs/toolkit": "^2.2.4",
     "@tarojs/components": "3.6.19",
     "@tarojs/helper": "3.6.19",
     "@tarojs/plugin-framework-react": "3.6.19",
     "@tarojs/plugin-html": "^3.6.28",
+    "@tarojs/plugin-http": "^3.6.29",
     "@tarojs/plugin-platform-alipay": "3.6.19",
     "@tarojs/plugin-platform-h5": "3.6.19",
     "@tarojs/plugin-platform-jd": "3.6.19",
@@ -53,10 +53,10 @@
     "@tarojs/runtime": "3.6.19",
     "@tarojs/shared": "3.6.19",
     "@tarojs/taro": "3.6.19",
+    "axios": "^1.6.8",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
-    "react-redux": "^9.1.2",
-    "redux": "^5.0.1",
+    "taro-axios": "^1.1.1",
     "taro-ui": "^3.3.0"
   },
   "devDependencies": {
