@@ -4,6 +4,7 @@ import "./app.less";
 import "taro-ui/dist/style/index.scss"; // 全局引入一次即可
 import { setSeystemNavHeight } from "@/utils/statusHeight";
 import { UserInfoProvider } from "./contexts/user";
+import { EventsProvider } from "./contexts/events";
 
 function App({ children }) {
   useLaunch(() => {
@@ -11,7 +12,11 @@ function App({ children }) {
   });
 
   // children 是将要会渲染的页面
-  return <UserInfoProvider>{children}</UserInfoProvider>;
+  return (
+    <EventsProvider>
+      <UserInfoProvider>{children}</UserInfoProvider>
+    </EventsProvider>
+  );
 }
 
 export default App;
