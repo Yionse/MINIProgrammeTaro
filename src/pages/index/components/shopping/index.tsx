@@ -13,7 +13,7 @@ export default function Shopping() {
   return (
     <ScrollView scrollY style={{ paddingBottom: "100px" }}>
       <StatusBar background="#7ca3ec" />
-      <Swiper
+      {/* <Swiper
         className="test-h"
         indicatorColor="#999"
         indicatorActiveColor="#333"
@@ -46,7 +46,7 @@ export default function Shopping() {
             />
           </View>
         </SwiperItem>
-      </Swiper>
+      </Swiper> */}
       <View
         style={{
           display: "flex",

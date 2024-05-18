@@ -5,6 +5,8 @@ export default defineAppConfig({
     "pages/updateInfo/index",
     "pages/article/index",
     "pages/storeDetail/index",
+    "pages/doctorDetail/index",
+    "pages/servicesDetail/index",
   ],
   window: {
     backgroundTextStyle: "light",

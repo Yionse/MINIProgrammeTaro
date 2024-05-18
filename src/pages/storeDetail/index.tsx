@@ -60,9 +60,15 @@ export default function StoreDetail() {
       </View>
       {physiotherapy?.map((item) => (
         <View
+          onClick={() =>
+            Taro.navigateTo({
+              url: `/pages/servicesDetail/index?id=${item?.s_id}&title=${item?.s_name}`,
+            })
+          }
           style={{
             border: "4px solid #eee",
             boxSizing: "border-box",
+            borderRadius: "6px",
             padding: "10px",
           }}
           className="space"
@@ -99,11 +105,18 @@ export default function StoreDetail() {
       </View>
       {doctor?.map((item) => (
         <View
+          onClick={() =>
+            Taro.navigateTo({
+              url: `/pages/doctorDetail/index?id=${item?.d_id}&title=${item?.d_name}`,
+            })
+          }
+          className="space"
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
             border: "4px solid #eee",
+            borderRadius: "6px",
           }}
         >
           <Image
