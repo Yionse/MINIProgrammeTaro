@@ -7,6 +7,9 @@ export default defineAppConfig({
     "pages/storeDetail/index",
     "pages/doctorDetail/index",
     "pages/servicesDetail/index",
+    "pages/productType/index",
+    "pages/productDetail/index",
+    "pages/messageDoctor/index",
   ],
   window: {
     backgroundTextStyle: "light",

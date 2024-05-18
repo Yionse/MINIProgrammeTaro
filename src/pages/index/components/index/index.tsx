@@ -137,11 +137,13 @@ export default function MeIndex() {
             borderBottom: "1px solid #7ca3ec",
             margin: "10px 0",
             boxSizing: "border-box",
-            padding: "0 4px",
+            padding: "4px",
           }}
         >
-          <View>{item?.k_title}</View>
-          <View style={{ width: "240px", height: "120px" }}>
+          <View style={{ width: "50%", textIndent: "2em" }}>
+            {item?.k_title}
+          </View>
+          <View style={{ width: "50%", height: "120px" }}>
             <Image
               src={item?.k_image}
               style={{ width: "100%", height: "100%" }}

@@ -1,3 +1,4 @@
+import { get } from "@/apis";
 import StatusBar from "@/components/StatusBar";
 import {
   Image,
@@ -7,9 +8,19 @@ import {
   Text,
   View,
 } from "@tarojs/components";
+import Taro from "@tarojs/taro";
+import { useEffect, useState } from "react";
 import { AtIcon } from "taro-ui";
 
 export default function Shopping() {
+  const [data, setData] = useState([] as any);
+  async function initData() {
+    const res = (await get("/goods/showAll")) as any;
+    setData(res?.data);
+  }
+  useEffect(() => {
+    initData();
+  }, []);
   return (
     <ScrollView scrollY style={{ paddingBottom: "100px" }}>
       <StatusBar background="#7ca3ec" />
@@ -49,44 +60,52 @@ export default function Shopping() {
       </Swiper> */}
       <View
         style={{
+          fontSize: "20px",
+          fontWeight: 700,
+          padding: "10px",
+          borderLeft: "6px solid #7ca3ec",
+          margin: "10px",
+        }}
+      >
+        商品分类
+      </View>
+      <View
+        style={{
           display: "flex",
           flexDirection: "row",
+          flexWrap: "wrap",
           alignItems: "center",
           margin: "20px 0",
           paddingBottom: "20px",
           borderBottom: "2px solid #7ca3ec",
         }}
       >
-        <View className="item-type">
-          <View>
-            <AtIcon value="lightning-bolt" color="#083cab" />
+        {[
+          "滋补营养&lightning-bolt",
+          "抗衰防老&shopping-bag",
+          "防病祛病&font-color",
+          "辅助食疗&money",
+          "护肤美容&mail",
+          "保健药茶&map-pin",
+          "保健药酒&folder",
+          "养生饰品&sketch",
+        ].map((item) => (
+          <View
+            className="item-type"
+            key={item}
+            style={{ margin: "10px 0" }}
+            onClick={() =>
+              Taro.navigateTo({
+                url: `/pages/productType/index?type=${item.split("&")?.[0]}`,
+              })
+            }
+          >
+            <View>
+              <AtIcon value={item.split("&")?.[1]} color="#29a2ec" />
+            </View>
+            <Text>{item.split("&")?.[0]}类</Text>
           </View>
-          <Text>四季茶饮</Text>
-        </View>
-        <View className="item-type">
-          <View>
-            <AtIcon value="shopping-bag" color="#cde7f8" />
-          </View>
-          <Text>传统滋补</Text>
-        </View>
-        <View className="item-type">
-          <View>
-            <AtIcon value="share" color="#4cf4ff" />
-          </View>
-          <Text>养生日用</Text>
-        </View>
-        <View className="item-type">
-          <View>
-            <AtIcon value="money" color="#29a2ec" />
-          </View>
-          <Text>养生膏方</Text>
-        </View>
-        <View className="item-type">
-          <View>
-            <AtIcon value="home" color="#29a2ec" />
-          </View>
-          <Text>全部分类</Text>
-        </View>
+        ))}
       </View>
       <View
         style={{
@@ -110,8 +129,13 @@ export default function Shopping() {
           justifyContent: "space-between",
         }}
       >
-        {[0, 1, 2, 3, 4, 5, 6].map((item) => (
+        {data?.map((item) => (
           <View
+            onClick={() =>
+              Taro.navigateTo({
+                url: `/pages/productDetail/index?id=${item?.g_id}&title=${item?.g_name}`,
+              })
+            }
             style={{
               width: "45%",
               marginTop: "4px",
@@ -120,11 +144,11 @@ export default function Shopping() {
             }}
           >
             <Image
-              src="https://bpic.588ku.com/back_origin_min_pic/19/10/22/098979949d793941a0a7866ec0029167.jpg"
+              src={item?.g_image}
               style={{ width: "100%", height: "120px" }}
             />
-            <View>商品名称</View>
-            <View>20.00</View>
+            <View>{item?.g_name}</View>
+            <View>￥{Number(item?.g_price).toFixed(2)}</View>
           </View>
         ))}
       </View>

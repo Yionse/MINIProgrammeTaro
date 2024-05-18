@@ -3,7 +3,7 @@ import Taro, { useRouter } from "@tarojs/taro";
 import { useContext, useEffect, useRef, useState } from "react";
 import { AtInput } from "taro-ui";
 import "../login/index.less";
-import { get } from "@/apis";
+import { get, post } from "@/apis";
 import { UserInfoContext } from "@/contexts/user";
 
 export default function UpdateInfo() {
@@ -78,7 +78,7 @@ export default function UpdateInfo() {
             user_intro: user_intro,
           });
 
-          const res = await get("/userInfo/updateInfo", {
+          const res = await post("/userInfo/updateInfo", {
             ...{ ...currentInfo.current },
             user_id: router?.params?.id,
             user_name: userName,
@@ -86,6 +86,8 @@ export default function UpdateInfo() {
             user_intro: user_intro,
           });
           setUserInfo(res?.data as any);
+          Taro.showToast({ icon: "success", title: "修改成功" });
+          setTimeout(() => Taro.navigateBack(), 1000);
         }}
       >
         保存

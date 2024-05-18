@@ -53,7 +53,7 @@ export default function User() {
               编辑资料&gt;
             </Text>
             <View style={{ fontWeight: "bold", fontSize: "22px" }}>
-              {userInfo?.user_nickname}
+              {userInfo?.user_name}
             </View>
             <View style={{ color: "gray" }}>{userInfo?.user_intro}</View>
           </>

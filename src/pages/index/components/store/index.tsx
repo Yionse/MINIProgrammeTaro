@@ -32,7 +32,7 @@ export default function Store() {
         <View
           onClick={() =>
             Taro.navigateTo({
-              url: `/pages/storeDetail/index?id=${item.h_id}&title=${item?.h_name}`,
+              url: `/pages/storeDetail/index?id=${item.H_id}&title=${item?.H_name}`,
             })
           }
           style={{
@@ -43,15 +43,17 @@ export default function Store() {
             borderBottom: "1px solid #7ca3ec",
             margin: "10px 0",
             boxSizing: "border-box",
-            padding: "0 4px",
+            padding: "4px",
           }}
         >
           <View>
-            <View>{item?.h_name}</View>
-            <View>地址：{item?.h_region}</View>
-            <View>联系电话：{item?.h_phonenumber}</View>
+            <View>{item?.H_name}</View>
+            <View>地址：{item?.H_region}</View>
+            <View>联系电话：{item?.H_phonenumber}</View>
           </View>
-          <Image className="item-img" src={item?.h_image} />
+          <View style={{ width: "50%" }}>
+            <Image className="item-img" src={item?.H_image} />
+          </View>
         </View>
       ))}
     </ScrollView>

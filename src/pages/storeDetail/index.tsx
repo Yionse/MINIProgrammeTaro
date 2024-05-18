@@ -39,14 +39,14 @@ export default function StoreDetail() {
         医馆简介
       </View>
       <Image
-        src={data?.h_image}
+        src={data?.H_image}
         style={{ width: "100%", borderRadius: "10px" }}
       />
       <View className="space" style={{ textIndent: "2em" }}>
-        {data?.h_intro}
+        {data?.H_intro}
       </View>
-      <View className="space">地址：{data?.h_location}</View>
-      <View className="space">联系电话：{data?.h_phonenumber}</View>
+      <View className="space">地址：{data?.H_location}</View>
+      <View className="space">联系电话：{data?.H_phonenumber}</View>
       <View
         style={{
           fontSize: "20px",
@@ -62,7 +62,7 @@ export default function StoreDetail() {
         <View
           onClick={() =>
             Taro.navigateTo({
-              url: `/pages/servicesDetail/index?id=${item?.s_id}&title=${item?.s_name}`,
+              url: `/pages/servicesDetail/index?id=${item?.S_id}&title=${item?.S_name}`,
             })
           }
           style={{
@@ -77,19 +77,19 @@ export default function StoreDetail() {
             style={{ fontWeight: "bold", fontSize: "18px" }}
             className="space"
           >
-            {item?.s_name}
+            {item?.S_name}
           </View>
           <Image
             className="space"
             src={
-              item?.s_main_image ||
+              item?.S_main_image ||
               "https://ts1.cn.mm.bing.net/th/id/R-C.08b9ea2159f603d05e38677ae2c96283?rik=JKlyrAGYLxggyQ&riu=http%3a%2f%2fwww.sucaijishi.com%2fuploadfile%2f2019%2f0122%2f20190122024839378.png%3fimageMogr2%2fformat%2fjpg%2fblur%2f1x0%2fquality%2f60&ehk=wTdS26lFLUKa1P4B9DLm7x428%2b5zRPswq6%2b0wJFwjK0%3d&risl=&pid=ImgRaw&r=0"
             }
             style={{ width: "100%", borderRadius: "10px" }}
           />
-          <View className="space">简介：{item?.s_intro}</View>
-          <View className="space">主治：{item?.s_indications}</View>
-          <View className="space">适用人群：{item?.s_people}</View>
+          <View className="space">简介：{item?.S_intro}</View>
+          <View className="space">主治：{item?.S_indications}</View>
+          <View className="space">适用人群：{item?.S_people}</View>
         </View>
       ))}
       <View
@@ -107,7 +107,7 @@ export default function StoreDetail() {
         <View
           onClick={() =>
             Taro.navigateTo({
-              url: `/pages/doctorDetail/index?id=${item?.d_id}&title=${item?.d_name}`,
+              url: `/pages/doctorDetail/index?id=${item?.D_id}&title=${item?.D_name}`,
             })
           }
           className="space"
@@ -121,17 +121,17 @@ export default function StoreDetail() {
         >
           <Image
             className="space"
-            src={item?.d_avatar}
+            src={item?.D_avatar}
             style={{ width: "100px", height: "100px", borderRadius: "50%" }}
           />
           <View style={{ marginLeft: "10px" }}>
             <View
               style={{ fontWeight: "bold", fontSize: "18px", margin: "10px 0" }}
             >
-              {item?.d_name}
+              {item?.D_name}
             </View>
-            <View>职称：{item?.d_title}</View>
-            <View>科室：{item?.d_department}</View>
+            <View>职称：{item?.D_title}</View>
+            <View>科室：{item?.D_department}</View>
           </View>
         </View>
       ))}

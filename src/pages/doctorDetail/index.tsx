@@ -30,14 +30,14 @@ export default function DoctorDetail() {
         医生简介
       </View>
       <Image
-        src={data?.d_avatar}
+        src={data?.D_avatar}
         style={{ width: "100%", borderRadius: "10px" }}
       />
-      <View className="space">{data?.d_name}</View>
-      <View className="space">{data?.d_gender}</View>
-      <View className="space">科室：{data?.d_department}</View>
-      <View className="space">职称：{data?.d_title}</View>
-      <View className="space">主治：{data?.d_area}</View>
+      <View className="space">{data?.D_name}</View>
+      <View className="space">{data?.D_gender}</View>
+      <View className="space">科室：{data?.D_department}</View>
+      <View className="space">职称：{data?.D_title}</View>
+      <View className="space">主治：{data?.D_area}</View>
     </ScrollView>
   );
 }
