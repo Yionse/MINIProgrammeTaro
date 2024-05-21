@@ -32,7 +32,7 @@ export default function Message() {
       {list?.map((item) => (
         <View
           onClick={() => {
-            if (true) {
+            if (userInfo?.user_id) {
               Taro.navigateTo({
                 url: `/pages/messageDoctor/index?id=${item?.D_id}&title=${item?.D_name}&url=${item?.D_avatar}`,
               });

@@ -1,41 +1,56 @@
 import { UserInfoContext } from "@/contexts/user";
 import { Button, Image, ScrollView, View } from "@tarojs/components";
 import Taro, { useRouter } from "@tarojs/taro";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { AtInput } from "taro-ui";
 import unlogin from "@/assets/unlogin.png";
-
-// 这里更改测试数据
-const mockData = [
-  {
-    type: "user",
-    message: "头疼咋办",
-  },
-  {
-    type: "doctor",
-    message: `头疼可能是由于多种原因引起的，包括压力、疲劳、缺水、睡眠不足、过度用眼、情绪等。以下是一些建议来缓解头疼：
-
-  1. 休息：尽量找一个安静的地方休息一会儿，闭上眼睛放松一下。
-
-  2. 喝水：确保你喝足够的水，因为脱水可能导致头疼。
-
-  3. 放松：尝试一些放松的活动，比如深呼吸、冥想或伸展运动。
-
-  4. 避免刺激：避免接触过多的光线、噪音和电子设备。
-
-  5. 舒缓压力：按摩颈部和太阳穴可能有助于缓解头疼。
-
-  如果你的头疼情况持续或变得严重，建议及时就医，以便获得专业的建议和治疗。`,
-  },
-];
+import { get, post } from "@/apis";
 
 export default function MessageDoctor() {
   const router = useRouter();
   const { userInfo } = useContext(UserInfoContext);
-  const [message, setMessage] = useState(mockData as any);
+  const [message, setMessage] = useState([] as any);
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
+  const copyText = useRef("");
+  async function initData() {
+    // 创建一个新的Date对象，它会自动获取当前的日期和时间
+    const currentDate = new Date();
+
+    // 使用Date对象的方法来获取年、月、日、时、分、秒等信息
+    const year = currentDate.getFullYear();
+    const month = currentDate.getMonth() + 1; // 月份是从0开始的，所以要加1
+    const day = currentDate.getDate();
+    const hours = currentDate.getHours();
+    const minutes = currentDate.getMinutes();
+    const seconds = currentDate.getSeconds();
+    await post("/doctor/addToConsultation", {
+      C_user: userInfo?.user_id,
+      C_doctor: Number(router.params?.id),
+      C_date: `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`,
+      C_price: Number((Math.random() * 100).toFixed(2)),
+    });
+  }
+  async function ask() {
+    const res = (await get("/doctor/ask", {
+      ask: copyText.current,
+    })) as any;
+    setLoading(false);
+    setMessage([
+      ...message,
+      {
+        type: "user",
+        message: copyText.current,
+      },
+      {
+        type: "doctor",
+        message: res?.message || "未知错误，请重试",
+      },
+    ]);
+  }
   useEffect(() => {
     Taro.setNavigationBarTitle({ title: router.params?.title || "" });
+    initData();
   }, []);
   return (
     <>
@@ -159,19 +174,24 @@ export default function MessageDoctor() {
             color: "white",
             borderRadius: "20px",
           }}
-          onClick={() => {
-            setMessage([
+          onClick={async () => {
+            if (!value) {
+              Taro.showToast({ title: "请输入症状", icon: "error" });
+              return;
+            }
+            if (loading) {
+              Taro.showToast({ title: "正在等待AI响应", icon: "error" });
+              return;
+            }
+            setLoading(true);
+            setMessage((message) => [
               ...message,
-              {
-                type: "user",
-                message: value,
-              },
-              {
-                type: "doctor",
-                message: "GPT正在接入中",
-              },
+              { type: "user", message: value },
+              { type: "doctor", message: "AI思考中" },
             ]);
+            copyText.current = value;
             setValue("");
+            await ask();
           }}
         >
           发送
